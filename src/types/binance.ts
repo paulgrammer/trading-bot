@@ -19,3 +19,7 @@ export interface BinanceTrade {
   isBuyerMaker: boolean;
   isBestMatch: boolean;
 }
+
+export interface BinancePriceResponse {
+  price: number;
+}

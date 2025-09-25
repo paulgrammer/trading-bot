@@ -1,4 +1,4 @@
-import { BinanceTrade } from "../types/binance"
+import { BinancePriceResponse, BinanceTrade } from "../types/binance"
 
 class BinanceApiError extends Error {
   constructor(description: string) {
@@ -27,6 +27,17 @@ class BinanceApi {
       return data as BinanceTrade[]
     } catch (e: any) {
       throw new BinanceApiError(`failed to fetch recent trades: ${e.message}`)
+    }
+  }
+
+  async getCurrentPrice(symbol: string): Promise<number> {
+    try {
+      const response = await fetch(`${this.baseURL}/ticker/price?symbol=${symbol}`);
+      const data = (await response.json()) as BinancePriceResponse;
+
+      return data.price
+    } catch (e: any) {
+      throw new BinanceApiError(`failed to fetch current price: ${e.message}`)
     }
   }
 }

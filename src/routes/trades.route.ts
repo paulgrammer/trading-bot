@@ -1,5 +1,5 @@
 import express from 'express'
-import * as tradeController from '../controllers/trade.controller'
+import * as tradeController from '../controllers/trades.controller'
 
 const router = express.Router()
 
