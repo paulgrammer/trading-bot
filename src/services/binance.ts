@@ -31,4 +31,6 @@ class BinanceApi {
   }
 }
 
+export const binanceApi = BinanceApi.getInstance()
+
 export default BinanceApi
