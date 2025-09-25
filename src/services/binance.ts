@@ -1,5 +1,16 @@
+import { BinanceTrade } from "../types/binance"
+
+class BinanceApiError extends Error {
+  constructor(description: string) {
+    super(description)
+
+    Error.captureStackTrace(this)
+  }
+}
+
 class BinanceApi {
-  static instance: BinanceApi
+  private static instance: BinanceApi
+  private readonly baseURL = "https://api.binance.com/api/v3"
 
   static getInstance() {
     if (!this.instance) {
@@ -9,8 +20,14 @@ class BinanceApi {
     return this.instance
   }
 
-  fetch(): string {
-    return "response"
+  async getHistoricalTrades(symbol: string, limit = 500): Promise<BinanceTrade[]> {
+    try {
+      const response = await fetch(`${this.baseURL}/historicalTrades?symbol=${symbol}&limit=${limit}`);
+      const data = await response.json();
+      return data as BinanceTrade[]
+    } catch (e: any) {
+      throw new BinanceApiError(`failed to fetch recent trades: ${e.message}`)
+    }
   }
 }
 
